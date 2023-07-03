@@ -1,6 +1,6 @@
 {
     "name": "@huntabyte/mdsvex",
-    "version": "0.15.4",
+    "version": "0.15.5",
     "description": "Markdown preprocessor for Svelte",
     "main": "dist/main.cjs.js",
     "module": "dist/main.es.js",
@@ -33,6 +33,7 @@
         "@types/js-yaml": "^3.12.5",
         "escape-html": "^1.0.3",
         "front-matter": "^4.0.0",
+        "hast-util-to-html": "^8.0.4",
         "js-yaml": "^3.13.1",
         "node-fetch": "^2.6.0",
         "rehype-slug": "^3.0.0",

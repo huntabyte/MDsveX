@@ -87,7 +87,7 @@ export function transform(
 		);
 	}
 
-	apply_plugins(remarkPlugins, toMDAST).use(highlight_blocks, highlight || {});
+	apply_plugins(remarkPlugins, toMDAST);
 
 	const toHAST = toMDAST
 		.use(remark2rehype, {

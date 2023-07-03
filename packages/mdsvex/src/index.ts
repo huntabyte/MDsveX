@@ -24,7 +24,7 @@ import external from 'remark-external-links';
 import extract_frontmatter from 'remark-frontmatter';
 import remark2rehype from 'remark-rehype';
 //@ts-ignore
-import { toHtml } from 'hast-util-to-html';
+import hast_to_html from '@starptech/prettyhtml-hast-to-html';
 
 import { mdsvex_parser } from './parsers';
 import {
@@ -41,7 +41,7 @@ function stringify(this: Processor, options = {}) {
 	this.Compiler = compiler;
 
 	function compiler(tree: Node): string {
-		return toHtml(tree, options);
+		return hast_to_html(tree, options);
 	}
 }
 

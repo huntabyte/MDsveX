@@ -14690,7 +14690,7 @@ function code(h, node) {
     props.className = ['language-' + lang];
   }
 
-  code = h(node, 'code', props, [u('text', value)]);
+  code = h(node, 'code', props, [unistBuilder('text', value)]);
 
   if (node.meta) {
     code.data = {meta: node.meta}

@@ -8456,12 +8456,12 @@
       props.className = ['language-' + lang];
     }
 
-    code = h(node, "code", props, [u('text', value)])
+    code = h(node, 'code', props, [unistBuilder('text', value)]);
 
     if (node.meta) {
-        code.data = {meta: node.meta}
+      code.data = {meta: node.meta}
     }
-
+  
     return h(node.position, 'pre', [code])
   }
 

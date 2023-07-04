@@ -30,8 +30,10 @@ import { mdsvex_parser } from './parsers';
 import {
 	default_frontmatter,
 	parse_frontmatter,
+	escape_code,
 	transform_hast,
 	smartypants_transformer,
+	highlight_blocks,
 	code_highlight,
 } from './transformers';
 
@@ -64,6 +66,7 @@ export function transform(
 		smartypants,
 		layout,
 		layout_mode,
+		highlight,
 	}: TransformOptions = { layout_mode: 'single' }
 ): Processor {
 	const fm_opts = frontmatter
@@ -73,6 +76,7 @@ export function transform(
 		.use(markdown)
 		.use(mdsvex_parser)
 		.use(external, { target: false, rel: ['nofollow'] })
+		.use(escape_code, { blocks: !!highlight })
 		.use(extract_frontmatter, [{ type: fm_opts.type, marker: fm_opts.marker }])
 		.use(parse_frontmatter, { parse: fm_opts.parse, type: fm_opts.type });
 
@@ -108,6 +112,7 @@ const defaults = {
 	rehypePlugins: [],
 	smartypants: true,
 	extension: '.svx',
+	highlight: { highlighter: code_highlight },
 };
 
 function to_posix(_path: string): string {
@@ -218,6 +223,7 @@ export const mdsvex = (options: MdsvexOptions = defaults): Preprocessor => {
 		extension = '.svx',
 		extensions,
 		layout = false,
+		highlight = { highlighter: code_highlight },
 		frontmatter,
 	} = options;
 
@@ -264,6 +270,9 @@ export const mdsvex = (options: MdsvexOptions = defaults): Preprocessor => {
 			_layout[name] = { path: resolve_layout(layout[name]), components: [] };
 		}
 	}
+	if (highlight && highlight.highlighter === undefined) {
+		highlight.highlighter = code_highlight;
+	}
 
 	_layout = process_layouts(_layout);
 	const parser = transform({
@@ -272,6 +281,7 @@ export const mdsvex = (options: MdsvexOptions = defaults): Preprocessor => {
 		smartypants,
 		layout: _layout,
 		layout_mode,
+		highlight,
 		frontmatter,
 	});
 
@@ -324,4 +334,4 @@ const _compile = (
 			}`,
 	});
 
-export { _compile as compile };
+export { _compile as compile, code_highlight as code_highlighter };

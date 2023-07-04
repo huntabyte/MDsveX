@@ -592,11 +592,7 @@ export const code_highlight: Highlighter = (code, lang) => {
 			langs[normalised_lang] = { name: lang } as MdsvexLanguage;
 			_lang = langs[normalised_lang];
 		}
-		const highlighted = escape_svelty(
-			_lang
-				? Prism.highlight(code, Prism.languages[_lang.name], _lang.name)
-				: escape(code)
-		);
+		const highlighted = escape_svelty(escape(code));
 		return `<pre class="language-${normalised_lang}">{@html \`<code class="language-${normalised_lang}">${highlighted}</code>\`}</pre>`;
 	} else {
 		const highlighted = escape_svelty(escape(code));

@@ -75,7 +75,7 @@ const entites: Array<[RegExp, string]> = [
 export function escape_code({ blocks }: { blocks: boolean }): Transformer {
 	return function (tree) {
 		if (!blocks) {
-			visit(tree, 'code', escape);
+			// visit(tree, 'code', escape);
 		}
 
 		// visit(tree, 'inlineCode', escape);

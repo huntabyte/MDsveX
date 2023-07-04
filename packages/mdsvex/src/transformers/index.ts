@@ -1,5 +1,5 @@
 import type { Transformer } from 'unified';
-import type { Text, Code, HTML } from 'mdast';
+import type { Text } from 'mdast';
 import type { Element, Root } from 'hast';
 import type { VFileMessage } from 'vfile-message';
 
@@ -75,7 +75,7 @@ const entites: Array<[RegExp, string]> = [
 export function escape_code({ blocks }: { blocks: boolean }): Transformer {
 	return function (tree) {
 		if (!blocks) {
-			// visit(tree, 'code', escape);
+			visit(tree, 'code', escape);
 		}
 
 		// visit(tree, 'inlineCode', escape);
@@ -530,43 +530,6 @@ function load_language(lang: string) {
 	}
 }
 
-export function highlight_blocks({
-	highlighter: highlight_fn,
-	alias,
-}: {
-	highlighter?: Highlighter;
-	alias?: { [x: string]: string };
-} = {}): Transformer {
-	if (highlight_fn && !(process as RollupProcess).browser) {
-		load_language_metadata();
-
-		if (alias) {
-			for (const lang in alias) {
-				langs[lang] = langs[alias[lang]];
-			}
-		}
-	}
-
-	return async function (tree) {
-		if (highlight_fn) {
-			const nodes: (Code | HTML)[] = [];
-			visit<Code>(tree, 'code', (node) => {
-				nodes.push(node);
-			});
-
-			await Promise.all(
-				nodes.map(async (node) => {
-					(node as HTML).type = 'html';
-					node.value = await highlight_fn(
-						node.value,
-						(node as Code).lang,
-						(node as Code).meta
-					);
-				})
-			);
-		}
-	};
-}
 // escape curlies, backtick, \t, \r, \n to avoid breaking output of {@html `here`} in .svelte
 export const escape_svelty = (str: string): string =>
 	str

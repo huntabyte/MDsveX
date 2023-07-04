@@ -33,7 +33,6 @@ import {
 	escape_code,
 	transform_hast,
 	smartypants_transformer,
-	highlight_blocks,
 	code_highlight,
 } from './transformers';
 

@@ -8451,13 +8451,13 @@
     var value = node.value ? detab_1(node.value + '\n') : '';
     var lang = node.lang && node.lang.match(/^[^ \t]+(?=[ \t]|$)/);
     var props = {};
-
+  
     if (lang) {
       props.className = ['language-' + lang];
     }
-
+  
     code = h(node, 'code', props, [unistBuilder('text', value)]);
-
+  
     if (node.meta) {
       code.data = {meta: node.meta}
     }
@@ -19019,8 +19019,29 @@
   	return transformer;
   }
 
+  // in code nodes replace the character witrh the html entities
+  // maybe I'll need more of these
+
+  const entites = [
+  	[/</g, '&lt;'],
+  	[/>/g, '&gt;'],
+  	[/{/g, '&#123;'],
+  	[/}/g, '&#125;'],
+  ];
+
   function escape_code({ blocks }) {
   	return function (tree) {
+  		if (!blocks) {
+  			unistUtilVisit(tree, 'code', escape);
+  		}
+
+  		unistUtilVisit(tree, 'inlineCode', escape);
+
+  		function escape(node) {
+  			for (let i = 0; i < entites.length; i += 1) {
+  				node.value = node.value.replace(entites[i][0], entites[i][1]);
+  			}
+  		}
   	};
   }
 
@@ -19362,6 +19383,7 @@
   		});
   	};
   }
+
   // escape curlies, backtick, \t, \r, \n to avoid breaking output of {@html `here`} in .svelte
   const escape_svelty = (str) =>
   	str

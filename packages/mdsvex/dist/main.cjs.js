@@ -14697,8 +14697,8 @@ function code(h, node) {
     }
   
     return h(node.position, 'pre', [code])
-  }
-  
+}
+
 var _delete = strikethrough;
 
 
@@ -25253,29 +25253,8 @@ function parse_frontmatter({
 	return transformer;
 }
 
-// in code nodes replace the character witrh the html entities
-// maybe I'll need more of these
-
-const entites = [
-	[/</g, '&lt;'],
-	[/>/g, '&gt;'],
-	[/{/g, '&#123;'],
-	[/}/g, '&#125;'],
-];
-
 function escape_code({ blocks }) {
 	return function (tree) {
-		if (!blocks) {
-			unistUtilVisit(tree, 'code', escape);
-		}
-
-		unistUtilVisit(tree, 'inlineCode', escape);
-
-		function escape(node) {
-			for (let i = 0; i < entites.length; i += 1) {
-				node.value = node.value.replace(entites[i][0], entites[i][1]);
-			}
-		}
 	};
 }
 

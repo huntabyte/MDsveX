@@ -8446,24 +8446,23 @@
 
 
 
-
-  function code(h, node) {
+function code(h, node) {
     var value = node.value ? detab_1(node.value + '\n') : '';
     var lang = node.lang && node.lang.match(/^[^ \t]+(?=[ \t]|$)/);
     var props = {};
 
     if (lang) {
-      props.className = ['language-' + lang];
+        props.className = ['language-' + lang];
     }
 
     code = h(node, 'code', props, [unistBuilder('text', value)]);
 
     if (node.meta) {
-      code.data = {meta: node.meta}
+        code.data = {meta: node.meta}
     }
-  
+
     return h(node.position, 'pre', [code])
-  }
+}
 
   var _delete = strikethrough;
 
@@ -19362,6 +19361,7 @@
   		});
   	};
   }
+
   // escape curlies, backtick, \t, \r, \n to avoid breaking output of {@html `here`} in .svelte
   const escape_svelty = (str) =>
   	str

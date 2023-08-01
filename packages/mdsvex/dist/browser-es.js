@@ -8449,13 +8449,13 @@ function code(h, node) {
   var props = {};
 
   if (lang) {
-    props.className = ['language-' + lang];
+      props.className = ['language-' + lang];
   }
 
   code = h(node, 'code', props, [unistBuilder('text', value)]);
 
   if (node.meta) {
-    code.data = {meta: node.meta}
+      code.data = {meta: node.meta}
   }
 
   return h(node.position, 'pre', [code])
@@ -19358,6 +19358,7 @@ function transform_hast({
 		});
 	};
 }
+
 // escape curlies, backtick, \t, \r, \n to avoid breaking output of {@html `here`} in .svelte
 const escape_svelty = (str) =>
 	str
